@@ -1,9 +1,9 @@
-PHP Laravel Project
+PHP Laravel Project: 
  User Management (30 Points):
 	1. New users can register (3 points)
 	2. Users can log in (3 points)
 	3. Users can log out (3 points)
-	4. Laravel password is used for registered users (3 points)
+	4. Laravel Passport is used for user authentication (3 points)
 	5. Registered users can choose their avatars (3 points)
 	6. Users can enter the website as guests (3 points)
 	7. Only registered users can post stories and edit/delete their own stories but not stories of other users (3 points)
@@ -18,13 +18,12 @@ PHP Laravel Project
 	5. Stories can be liked and unliked (4 points)
 	6. Comments can be posted in association with a story (4 points)
 	7. Comments can be edited and deleted (3 points)
- Best Practices (15 Points):
+ Best Practices (15 points):
 	1. Code is well formatted and easy to read, with proper commenting (4 points)
 	2. Site follows the FIEO philosophy (3 points)
 	3. All pages pass the W3C validator (3 points)
-	4. CSRF tokens are passed when creating, editing, and deleting comments and stories (5 points)
+	4. CSRF tokens created using the Laravel.csrftoken object are passed when creating, editing, and deleting comments and stories (5 points)
  BootStrapping (5 Points):
 	1. Site is visually appeal (3 points)
-	2. Site is professional and Êintuitive to use and navigate (2 points)
- Creative Portion (10points)
-
+	2. Site is professional and ï¿½intuitive to use and navigate (2 points)
+ Creative Portion (10 points)
