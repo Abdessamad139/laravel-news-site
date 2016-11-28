@@ -25,5 +25,5 @@ PHP Laravel Project: News sharing website
 	4. CSRF tokens created using the Laravel.csrftoken object are passed when creating, editing, and deleting comments and stories (5 points)
  BootStrapping (5 Points):
 	1. Site is visually appeal (3 points)
-	2. Site is professional and �intuitive to use and navigate (2 points)
+	2. Site is professional and intuitive to use and navigate (2 points)
  Creative Portion (10 points)
