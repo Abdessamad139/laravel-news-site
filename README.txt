@@ -26,4 +26,4 @@ PHP Laravel Project: News Sharing Website
  BootStrapping (5 Points):
 	1. Site is visually appeal (3 points)
 	2. Site is professional and intuitive to use and navigate (2 points)
- Creative Portion (10 points)
+ Creative Portion (15 points)
