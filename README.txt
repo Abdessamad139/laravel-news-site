@@ -1,4 +1,4 @@
-PHP Laravel Project: 
+PHP Laravel Project: News sharing website
  User Management (30 Points):
 	1. New users can register (3 points)
 	2. Users can log in (3 points)
