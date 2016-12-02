@@ -4,18 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Task;
-use Session;
-use Auth;
-use DB;
 
-class TasksController extends Controller
+class GuestViewController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -24,13 +15,7 @@ class TasksController extends Controller
     public function index()
     {
         //
-        $uid = Auth::id();
-
-        $tasks = DB::table('tasks')
-                     ->where('userid', '=', $uid)
-                     ->get();
-
-        // $tasks = Task::all();
+        $tasks = Task::all();
 
         return view('tasks.index')->withTasks($tasks);
     }
@@ -63,13 +48,7 @@ class TasksController extends Controller
         // adding news to database
         $input = $request->all();
 
-        $title = $request->input('title');
-        $description = $request->input('description');
-        $url = $request->input('url');
-        $userid = Auth::id();
-
-        // Task::create($input);
-        Task::create(['title' => $title, 'description' => $description, 'url' => $url, 'userid' => $userid]);
+        Task::create($input);
 
         Session::flash('flash_message', 'Story successfully added!');
 
@@ -88,7 +67,7 @@ class TasksController extends Controller
         //
         $task = Task::findOrFail($id);
 
-        return view('tasks.show')->withTask($task);    }
+        return view('guest.show')->withTask($task);    }
 
     /**
      * Show the form for editing the specified resource.

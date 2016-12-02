@@ -2,11 +2,26 @@
 
 @section('content')
 
-<h1>Welcome Home</h1>
-<p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maiores, possimus, ullam? Deleniti dicta eaque facere, facilis in inventore mollitia officiis porro totam voluptatibus! Adipisci autem cumque enim explicabo, iusto sequi.</p>
+<h1>stories</h1>
+<p class="lead">Manage your posts here. <a href="{{ route('tasks.create') }}">Add a new one?</a></p>
 <hr>
 
-<a href="{{ route('tasks.index') }}" class="btn btn-info">View Tasks</a>
-<a href="{{ route('tasks.create') }}" class="btn btn-primary">Add New Task</a>
+<div class="container-fluid">
+	<!-- list of tasks -->
+	<div class="row">
+		@foreach($tasks as $task)
+		<div class="col-sm-4 story-grid">
+			<h3 class="story-grid-titles">{{ $task->title }}</h3>
+			<div style="height: 100px;">
+			<p>{{ $task->description}}</p>
+			</div>
+			<p>
+				<a href="{{ route('guest.show', $task->id) }}" class="btn btn-default">Comments</a>
+			</p>
+			<hr>
+		</div>
+		@endforeach
+	</div>
+</div>
 
 @stop

@@ -45,7 +45,7 @@
           <div class="navbar-header">
             <a class="navbar-brand" href="{{ route('home') }}">NewsPoint</a>
           </div>
-          <!-- Left Side Of Navbar -->
+          <!-- Right Side Of Navbar -->
           <ul class="nav navbar-nav navbar-right">
             <!-- Authentication Links -->
             @if (Auth::guest())
@@ -67,11 +67,14 @@
                     {{ csrf_field() }}
                   </form>
                 </li>
+                <li>
+                  <a href="{{ route('tasks.index') }}">Manage Posts</a>
+                </li>
               </ul>
             </li>
             @endif
           </ul>
-          <!-- Right Side Of Navbar -->
+          <!-- Left Side Of Navbar -->
           <div class="nav navbar-nav navbar-left">
             <li><a href="{{ route('home') }}">Home</a></li>
             <li><a href="{{ route('tasks.index') }}">Stories</a></li>

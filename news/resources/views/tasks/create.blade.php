@@ -28,7 +28,9 @@
     {!! Form::text('url', null, ['class' => 'form-control']) !!}
 </div>
 
-{!! Form::submit('Add New Story', ['class' => 'btn btn-primary']) !!}
+{{ Form::hidden('id', Auth::id()) }}
+
+{!! Form::submit('Add New Story', ['class' => 'btn btn-default']) !!}
 
 {!! Form::close() !!}
 

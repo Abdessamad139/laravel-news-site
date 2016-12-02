@@ -18,6 +18,8 @@ Route::get('/', [
 ]);
 
 Route::resource('tasks', 'TasksController');
+Route::resource('guest', 'GuestViewController');
+Route::resource('comments', 'CommentsController');
 
 
 Auth::routes();
