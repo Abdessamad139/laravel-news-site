@@ -12,9 +12,13 @@ class Task extends Model
      * @var array
      */
     protected $fillable = [
-        'title',
-        'description',
-        'url',
-        'userid'
+    'title',
+    'description',
+    'url',
+    'userid'
     ];
-}
+
+    public static $storevalid = array( 
+    	'commentText' => 'required',     
+    	);
+  }

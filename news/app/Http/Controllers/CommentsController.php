@@ -3,68 +3,67 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Validator;
 use DB;
+use Auth;
+use Session;
+use App\Comment;
+use App\Task;
+use View;
 
 class CommentsController extends Controller
 {
 
 	public function __construct()
 	{
-		$this->middleware('auth', ['except' => 'index']);
+		$this->middleware('auth', ['except' => 'showPage']);
 	}
 
-	public function get($id)
+	public function showPage($id)
 	{
-		// $comments = DB::table('comments')
-		// ->where('storyid', '=', $id)
-		// ->get();
+		//
+    $task = Task::findOrFail($id);
 
-		return Response::json(Comment::get());
+		$comments = DB::table('comments')
+		->where('storyid', '=', $id)
+		->get();
+
+		// $comments = DB::select('select * from comments');  
+		return View::make('comments.commentPage' , array('comments' => $comments, 'task' => $task));
+
 
 	}
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    	return view('tasks.create');
-    }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function storeComment(Request $request)
     {
-        Comment::create(array(
-            'userid' => Auth::id(),
-            'storyid' => Input::get('storyid'),
-            'content' => Input::get('text')
-        ));
-    
-        return Response::json(array('success' => true));
+
+        //validate input
+        $this->validate($request, [
+            'commentText' => 'required'
+            ]);
+        // adding news to database
+        $input = $request->all();
+
+        $content = $request->input('commentText');
+        $userid = Auth::id();
+        $storyid = $request->input('storyid');
+
+        // Task::create($input);
+        Comment::create(['content' => $content, 'userid' => $userid, 'storyid' => $storyid]);
+
+        Session::flash('flash_message', 'Comment successfully added!');
+
+        return redirect()->back();
+
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    	$task = Task::findOrFail($id);
-
-    	return view('tasks.show')->withTask($task);    
-    }
 
     /**
      * Show the form for editing the specified resource.

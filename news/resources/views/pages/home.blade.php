@@ -16,7 +16,7 @@
 			<p>{{ $task->description}}</p>
 			</div>
 			<p>
-				<a href="{{ route('guest.show', $task->id) }}" class="btn btn-default">Comments</a>
+				<a href="{{ url('/getcommentpage', $task->id) }}" class="btn btn-default">Comments</a>
 			</p>
 			<hr>
 		</div>

@@ -16,7 +16,7 @@
 			<p>{{ $task->description}}</p>
 			</div>
 			<p>
-				<a href="{{ route('tasks.show', $task->id) }}" class="btn btn-default">Comments</a>
+				<a href="{{ url('/getcommentpage', $task->id) }}" class="btn btn-default">Comments</a>
 				<a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-primary">Edit Story</a>
 			</p>
 			<hr>

@@ -12,57 +12,47 @@
         <hr>
 
         <!-- list comments -->
-        <div>
-            <ul>
-                @foreach($comments as $comment)
-                <li>
-                    <table>
-                        <td><h5>{{ $comment->userid }}</h5></td>
-                        <td><p>{{ $comment->content }}</p></td>
-                        @if(Auth::id()=$comment->userid)
-                        <td>
-                            <!-- edit comment -->
-                            <a href="{{ route('comments.edit', $comment->id) }}" class="btn btn-defult">Edit</a>
-                            <!-- delete comment -->
-                            {!! Form::open([
-                            'method' => 'DELETE',
-                            'route' => ['comments.destroy', $comment->id]
-                            ]) !!}
-                            {!! Form::submit('Delete this comment?', ['class' => 'btn btn-danger']) !!}
-                            {!! Form::close() !!}
-                        </td>
-                        @endif
-                    </table>
-                </li>
-                @endforeach
-            </ul>
-        </div>
-        @if (Auth::guest())
+        <div class="actionBox">
+            <ul class="commentList">             
+              @if (!empty($comments))
+              @foreach ($comments as $cm)
+              <div class="commentAnswerBox" style="background-color:#ade5f4"></div>
+              <li>               
+                <div class="commentText">                    
+                    <p class="" >{{$cm->content}}</p> 
+                    <div style="margin-top:10px">                    
+                      <span class="date sub-text" id="dt">on {{$cm->updated_at}}</span>                    
+                  </div>
+              </div>
+          </li>              
+          @endforeach  
+          @endif
+      </ul>      
+  </div>
 
-        @else
-        <div>
-            <!-- comment form -->
-            {!! Form::open([
-            'route' => 'guest.store'
-            ]) !!}
+  <!-- add comments -->
+  @if (Auth::guest())
 
-            <div class="form-group">
-                {!! Form::label('comment', 'Comment:', ['class' => 'control-label']) !!}
-                {!! Form::textarea('comment', null, ['class' => 'form-control']) !!}
-            </div>
+  @else
+  <div>
 
-            {{ Form::hidden('id', Auth::id()) }}
-
-            {!! Form::submit('Add New Story', ['class' => 'btn btn-primary']) !!}
-
-            {!! Form::close() !!}
-
-            <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-primary">Comment</a>
-        </div>
-        @endif
+    <div class="actionBox">
+        {{ Form::open(array('url'=>'/postcomment', 'method' => 'post' , 'class' => 'form-inline' )) }}        
+        <div class="form-group" style="width:100%; position:relative">                             
+          {{ Form::textarea('commentText', null, ['class' => 'form-control', 'placeholder' => 'Add your comment', 'rows' => '4']) }}
+      </div>
+      <div class="form-group">                
+          {{ Form::submit('Post Comment', array('class' => 'btn btn-block btn-primary' , 'style' => 'width:220px')) }}
+      </div>
+      {{ Form::close() }}         
+  </div>
 
 
-    </div>
+</div>
+@endif
+
+
+</div>
 </div>
 
 @stop

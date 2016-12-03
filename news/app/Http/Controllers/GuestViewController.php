@@ -65,9 +65,11 @@ class GuestViewController extends Controller
     public function show($id)
     {
         //
-        $task = Task::findOrFail($id);
+        // $task = Task::findOrFail($id);
 
-        return view('guest.show')->withTask($task);    }
+        // return view('comments.showPage')->withTask($task);  
+        return;  
+    }
 
     /**
      * Show the form for editing the specified resource.

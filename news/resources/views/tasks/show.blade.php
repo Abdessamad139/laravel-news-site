@@ -19,24 +19,19 @@
             {!! Form::submit('Delete this task?', ['class' => 'btn btn-danger']) !!}
         {!! Form::close() !!}
     </div>
-    <div>
-        <!-- comment form -->
-        {!! Form::open([
-        'route' => 'guest.store'
-        ]) !!}
 
-        <div class="form-group">
-            {!! Form::label('comment', 'Comment:', ['class' => 'control-label']) !!}
-            {!! Form::textarea('comment', null, ['class' => 'form-control']) !!}
-        </div>
+    <div class="actionBox">
+        {{ Form::open(array('url'=>'/postcomment', 'method' => 'post' , 'class' => 'form-inline' )) }}        
+        <div class="form-group" style="width:100%; position:relative">                             
+          {{ Form::textarea('commentText', null, ['class' => 'form-control', 'placeholder' => 'Add your comment', 'rows' => '4']) }}
+      </div>
+      <div class="form-group">                
+          {{ Form::submit('Post Comment', array('class' => 'btn btn-block btn-primary' , 'style' => 'width:220px')) }}
+      </div>
+      {{ Form::close() }}         
+	  </div>
 
-        {{ Form::hidden('id', Auth::id()) }}
-
-        {!! Form::submit('Add New Story', ['class' => 'btn btn-primary']) !!}
-
-        {!! Form::close() !!}
-
-        <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-primary">Comment</a>
+    <a href="{{ route('comments.storecomment', $task->id) }}" class="btn btn-primary">Comment</a>
     </div>
 </div>
 
