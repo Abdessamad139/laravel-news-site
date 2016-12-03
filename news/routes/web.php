@@ -18,11 +18,13 @@ Route::get('/', [
 	]);
 
 Route::resource('tasks', 'TasksController');
-Route::resource('guest', 'GuestViewController');
+// Route::resource('guest', 'GuestViewController');
 Route::resource('comments', 'CommentsController');
+Route::resource('likes', 'LikesController');
 
 Route::post('/postcomment','CommentsController@storeComment');
-Route::get('/getcommentpage/{id}', 'CommentsController@showPage');
+Route::get('/showcomments/{id}', 'CommentsController@showPage')->name('getcomments');
+Route::post('/unlike/{userid}/{storyid}', 'LikesController@unlike')->name('unlike');
 
 Auth::routes();
 

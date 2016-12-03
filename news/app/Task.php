@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use All\Like;
 
 class Task extends Model
 {
@@ -19,6 +20,13 @@ class Task extends Model
     ];
 
     public static $storevalid = array( 
-    	'commentText' => 'required',     
+    	'title' => 'required', 
+    	'description' => 'required', 
+    	'url' => 'required'    
     	);
+
+    public function likes()
+    {
+    	return $this->hasMany('App\Like','storyid');
+    }
   }

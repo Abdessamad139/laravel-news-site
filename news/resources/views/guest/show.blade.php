@@ -2,7 +2,9 @@
 
 @section('content')
 
-<h1>{{ $task->title }}</h1>
+<!-- <h1>{{ $task->title }}</h1> -->
+<a href="{{$task->url}}"><h1 class="story-grid-titles">{{ $task->title }}</h1></a>
+
 <p class="lead">{{ $task->description }}</p>
 <hr>
 

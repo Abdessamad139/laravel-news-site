@@ -61,7 +61,6 @@ class CommentsController extends Controller
 
         return redirect()->back();
 
-
     }
 
 
@@ -74,9 +73,9 @@ class CommentsController extends Controller
     public function edit($id)
     {
         //
-    	$task = Task::findOrFail($id);
+    	$comment = Comment::findOrFail($id);
 
-    	return view('tasks.edit')->withTask($task);
+    	return view('comments.edit')->withComment($comment);
 
     }
 
@@ -90,20 +89,20 @@ class CommentsController extends Controller
     public function update(Request $request, $id)
     {
         //
-    	$task = Task::findOrFail($id);
+    	$comment = Comment::findOrFail($id);
 
     	$this->validate($request, [
-    		'title' => 'required',
-    		'description' => 'required'
+    		'content' => 'required'
     		]);
 
     	$input = $request->all();
 
-    	$task->fill($input)->save();
+    	$comment->fill($input)->save();
 
-    	Session::flash('flash_message', 'Task successfully added!');
+    	Session::flash('flash_message', 'Comment successfully modified!');
 
-    	return redirect()->back();
+    	return redirect()->route('getcomments', ['id' => $comment->storyid]);
+    	// return redirect()->back();
     }
 
     /**
@@ -121,6 +120,6 @@ class CommentsController extends Controller
 
     	Session::flash('flash_message', 'Comment successfully deleted!');
 
-    	return redirect()->route('tasks.index');
+    	return redirect()->back();
     }
   }

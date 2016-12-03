@@ -4,14 +4,15 @@
 
 <!-- the CSS styles for this page is inspired by Ravindu Jayalath's blog post at http://awithit.blogspot.com/2014/09/how-to-create-simple-comment-box-in.html -->
 
-<h1>{{ $task->title }}</h1>
-<h1>{{ $task->id }}</h1>
+<a href="{{$task->url}}"><h1 class="story-grid-titles">{{ $task->title }}</h1></a>
+<p class="date sub-text" id="dt">on {{$task->updated_at}}</p>                    
 <p class="lead">{{ $task->description }}</p>
+
 <hr>
 
 <div class="row">
     <div class="col-md-6">
-        <a href="{{ route('home') }}" class="btn btn-default">Back to all tasks</a>
+        <a href="{{ route('home') }}" class="btn btn-default">Back to all stories</a>
         <hr>
 
         <!-- list comments -->
@@ -33,12 +34,12 @@
                         <span>
                         {!! Form::open([
                         'method' => 'DELETE',
-                        'route' => ['tasks.destroy', $task->id]
+                        'route' => ['comments.destroy', $cm->id]
                         ]) !!}
                         {!! Form::submit('Delete', ['class' => 'btn btn-default']) !!}
                         {!! Form::close() !!}
                         </span>
-                        <a href="{{ url('/getcommentpage', $task->id) }}" class="btn btn-default"> Edit </a>
+                        <a href="{{ route('comments.edit', $cm->id) }}" class="btn btn-default">&nbsp;&nbsp;Edit&nbsp;&nbsp;&nbsp;</a>
                     </div>
                     @endif
                 </li>              

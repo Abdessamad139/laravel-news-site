@@ -11,12 +11,12 @@
 	<div class="row">
 		@foreach($tasks as $task)
 		<div class="col-sm-4 story-grid">
-			<h3 class="story-grid-titles">{{ $task->title }}</h3>
+			<a href="{{$task->url}}"><h3 class="story-grid-titles">{{ $task->title }}</h3></a>
 			<div style="height: 100px;">
 			<p>{{ $task->description}}</p>
 			</div>
 			<p>
-				<a href="{{ url('/getcommentpage', $task->id) }}" class="btn btn-default">Comments</a>
+				<a href="{{ route('getcomments', $task->id) }}" class="btn btn-default">Comments</a>
 				<a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-primary">Edit Story</a>
 			</p>
 			<hr>

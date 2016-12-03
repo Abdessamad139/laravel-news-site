@@ -18,9 +18,12 @@ class CreateCommentsTable extends Migration
 
             $table->text('content');
             $table->integer('userid');
-            $table->integer('storyid');
+            $table->integer('storyid')->unsigned();
 
             $table->timestamps();
+
+            $table->foreign('storyid')->references('id')->on('tasks')
+            ->onDelete('cascade');
         });
     }
 
