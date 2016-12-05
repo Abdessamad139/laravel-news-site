@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\User;
 
 class Comment extends Model
 {
@@ -20,8 +21,10 @@ class Comment extends Model
     public static $storevalid = array( 
     	'content' => 'required'  
     	);
-    // public function owner()
-    // {
-    // 	return $this->belongsTo('App\Task', 'userid');
-    // }
+
+    public function owner()
+    {
+    	return $this->belongsTo('App\User', 'userid');
+    }
+
   }

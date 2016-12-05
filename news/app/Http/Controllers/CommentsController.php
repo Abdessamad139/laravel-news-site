@@ -30,7 +30,7 @@ class CommentsController extends Controller
 		->get();
 
 		// $comments = DB::select('select * from comments');  
-		return View::make('comments.commentPage' , array('comments' => $comments, 'task' => $task));
+		return view('comments.commentPage')->withComments($comments)->withTask($task);
 
 
 	}

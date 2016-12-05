@@ -13,12 +13,26 @@
 		<div class="col-sm-4 story-grid">
 			<a href="{{$task->url}}"><h3 class="story-grid-titles">{{ $task->title }}</h3></a>
 			<div style="height: 100px;">
-			<p>{{ $task->description}}</p>
+				<p>{{ $task->description}}</p>
 			</div>
-			<p>
-				<a href="{{ route('getcomments', $task->id) }}" class="btn btn-default">Comments</a>
-				<a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-primary">Edit Story</a>
-			</p>
+			<div>
+				<table>
+					<td>
+						<a href="{{ route('getcomments', $task->id) }}" class="btn btn-default">Comments</a>
+					</td>
+					<td>
+					<a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-primary">Edit Story</a>
+					</td>
+					<td>
+						{!! Form::open([
+						'method' => 'DELETE',
+						'route' => ['tasks.destroy', $task->id]
+						]) !!}
+						{!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+						{!! Form::close() !!}
+					</td>
+				</table>
+			</div>
 			<hr>
 		</div>
 		@endforeach

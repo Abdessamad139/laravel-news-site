@@ -21,27 +21,41 @@
                 @if (!empty($comments))
                 @foreach ($comments as $cm)
                 <div class="commentAnswerBox" style="background-color:#ade5f4"></div>
-                <li>               
-                    <div class="commentText">                    
-                        <p class="" >{{$cm->content}}</p> 
-                        <div style="margin-top:10px">                    
-                            <p class="date sub-text" id="dt">on {{$cm->updated_at}}</p>                    
-                        </div>
-                    </div>
+                <li style="width: 500px">
+                    <table>
+                        <td id="userCommentThumbnail">
+                            <p>{{ (App\User::find($cm->userid))->name }}</p>
+                            <img src="/img/avatars/{{ App\User::find($cm->userid)->avatar }}" style="width:40px;height:40px;">
+                        </td>
+                        <td style="width: 100%; padding-left: 20px">
+                            <div class="commentText">                    
+                                <p class="" >{{$cm->content}}</p> 
+                                <div style="margin-top:10px">                    
+                                    <p class="date sub-text" id="dt">on {{$cm->updated_at}}</p>                    
+                                </div> 
+                            </div>
+                        </td>
+                    </table>
                     @if (Auth::id()==$cm->userid)
-                    <br>
+                    <hr>
                     <div>
-                        <span>
-                        {!! Form::open([
-                        'method' => 'DELETE',
-                        'route' => ['comments.destroy', $cm->id]
-                        ]) !!}
-                        {!! Form::submit('Delete', ['class' => 'btn btn-default']) !!}
-                        {!! Form::close() !!}
-                        </span>
-                        <a href="{{ route('comments.edit', $cm->id) }}" class="btn btn-default">&nbsp;&nbsp;Edit&nbsp;&nbsp;&nbsp;</a>
+                        <table>
+                            <td>
+                                {!! Form::open([
+                                'method' => 'DELETE',
+                                'route' => ['comments.destroy', $cm->id]
+                                ]) !!}
+                                {!! Form::submit('Delete', ['class' => 'btn btn-default']) !!}
+                                {!! Form::close() !!}
+                            </td>
+                            <td>
+                                <a href="{{ route('comments.edit', $cm->id) }}" class="btn btn-default">&nbsp;&nbsp;Edit&nbsp;&nbsp;&nbsp;</a>
+                            </td>
+                        </table>
+
                     </div>
                     @endif
+                    
                 </li>              
                 @endforeach  
                 @endif

@@ -17,30 +17,40 @@
 				
 				<p>{{ $task->description}}</p>
 			</div>
-			<!-- like feature -->
-			@if(Auth::guest())
-			<button type="button" class="btn btn-default glyphicon glyphicon-heart-empty" disabled>&nbsp;{{$task->likes->count()}}</button>
-			@else
-			
-			@if (in_array(Auth::id(), $task->likes->pluck('userid')->toArray()))
-			<!-- this user likes the post -->
-			{{ Form::open(['route' => ['unlike', Auth::id(), $task->id]]) }}
-			{{ Form::hidden('userid', Auth::id()) }}
-			{{ Form::hidden('storyid', $task->id) }}
-			<button type="submit" class="btn btn-default glyphicon glyphicon-heart">&nbsp;{{$task->likes->count()}}</button>
-			{{ Form::close() }}
 
-			@else
-			<!-- this user hasnt liked the post -->
-			{{ Form::open(['route' => 'likes.store']) }}
-			{{ Form::hidden('userid', Auth::id()) }}
-			{{ Form::hidden('storyid', $task->id) }}
-			<button type="submit" class="btn btn-default glyphicon glyphicon-heart-empty">&nbsp;{{$task->likes->count()}}</button>
-			{{ Form::close() }}
-			@endif
-			@endif
+			<table>
+				<td>
+					<!-- like feature -->
+					@if(Auth::guest())
+
+					<button type="button" class="btn btn-default glyphicon glyphicon-heart-empty" disabled>&nbsp;{{$task->likes->count()}}</button>
+					@else
+
+					@if (in_array(Auth::id(), $task->likes->pluck('userid')->toArray()))
+					<!-- this user likes the post -->
+					{{ Form::open(['route' => ['unlike', Auth::id(), $task->id]]) }}
+					{{ Form::hidden('userid', Auth::id()) }}
+					{{ Form::hidden('storyid', $task->id) }}
+					<button type="submit" class="btn btn-default glyphicon glyphicon-heart">&nbsp;{{$task->likes->count()}}</button>
+					{{ Form::close() }}
+
+					@else
+					<!-- this user hasnt liked the post -->
+					{{ Form::open(['route' => 'likes.store']) }}
+					{{ Form::hidden('userid', Auth::id()) }}
+					{{ Form::hidden('storyid', $task->id) }}
+					<button type="submit" class="btn btn-default glyphicon glyphicon-heart-empty">&nbsp;{{$task->likes->count()}}</button>
+					{{ Form::close() }}
+					@endif
+					@endif
+				</td>
+				
+				<td>
+					<a href="{{ route('getcomments', $task->id) }}" class="btn btn-default">Comments</a>
+				</td>
+			</table>
 			
-			<a href="{{ route('getcomments', $task->id) }}" class="btn btn-default">Comments</a>
+			
 			
 			<hr>
 		</div>

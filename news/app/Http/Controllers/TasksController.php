@@ -28,6 +28,7 @@ class TasksController extends Controller
 
         $tasks = DB::table('tasks')
                      ->where('userid', '=', $uid)
+                     ->orderBy('created_at', 'desc')
                      ->get();
 
         // $tasks = Task::all();

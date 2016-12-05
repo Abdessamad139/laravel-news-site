@@ -1,7 +1,3 @@
-
-
-<!--  -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,17 +64,16 @@
                   </form>
                 </li>
                 <li>
+                  <a href="{{ url('showavatar', Auth::id()) }}">Profile Photo</a>
+                </li>
+                <li>
                   <a href="{{ route('tasks.index') }}">Manage Posts</a>
                 </li>
               </ul>
             </li>
             @endif
           </ul>
-          <!-- Left Side Of Navbar -->
-          <div class="nav navbar-nav navbar-left">
-            <li><a href="{{ route('home') }}">Home</a></li>
-            <li><a href="{{ route('tasks.index') }}">Stories</a></li>
-          </div>
+
 
         </div>
       </div>
