@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Task;
+use App\Tag;
 use Session;
 use Auth;
 use DB;
@@ -13,7 +14,7 @@ class TasksController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('filterByTag');
     }
 
     /**
@@ -26,12 +27,7 @@ class TasksController extends Controller
         //
         $uid = Auth::id();
 
-        $tasks = DB::table('tasks')
-                     ->where('userid', '=', $uid)
-                     ->orderBy('created_at', 'desc')
-                     ->get();
-
-        // $tasks = Task::all();
+        $tasks = Task::where('userid', '=', $uid)->get();
 
         return view('tasks.index')->withTasks($tasks);
     }
@@ -44,7 +40,8 @@ class TasksController extends Controller
     public function create()
     {
         //
-        return view('tasks.create');
+        $tags = Tag::pluck('tagname', 'id');
+        return view('tasks.create')->withTags($tags);
     }
 
     /**
@@ -59,7 +56,7 @@ class TasksController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'description' => 'required',
-            'url' => 'required'
+            'url' => 'required|active_url'
             ]);
         // adding news to database
         $input = $request->all();
@@ -67,10 +64,15 @@ class TasksController extends Controller
         $title = $request->input('title');
         $description = $request->input('description');
         $url = $request->input('url');
-        $userid = Auth::id();
 
-        // Task::create($input);
-        Task::create(['title' => $title, 'description' => $description, 'url' => $url, 'userid' => $userid]);
+        $task = new Task;
+        $task->title = $title;
+        $task->description = $description;
+        $task->url = $url;
+        $task->userid = Auth::id();
+        $task->save();
+
+        $task->tags()->attach($request->input('tag_list'));
 
         Session::flash('flash_message', 'Story successfully added!');
 
@@ -86,10 +88,10 @@ class TasksController extends Controller
      */
     public function show($id)
     {
-        //
         $task = Task::findOrFail($id);
 
-        return view('tasks.show')->withTask($task);    }
+        return view('tasks.show')->withTask($task);    
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -99,11 +101,10 @@ class TasksController extends Controller
      */
     public function edit($id)
     {
-        //
+        $tags = Tag::pluck('tagname', 'id');
         $task = Task::findOrFail($id);
 
-        return view('tasks.edit')->withTask($task);
-
+        return view('tasks.edit')->withTask($task)->withTags($tags);
     }
 
     /**
@@ -116,21 +117,23 @@ class TasksController extends Controller
     public function update(Request $request, $id)
     {
         //
-     $task = Task::findOrFail($id);
+        $task = Task::findOrFail($id);
 
-     $this->validate($request, [
-        'title' => 'required',
-        'description' => 'required'
-        ]);
+        $this->validate($request, [
+            'title' => 'required',
+            'description' => 'required'
+            ]);
 
-     $input = $request->all();
+        $input = $request->all();
 
-     $task->fill($input)->save();
+        $task->fill($input)->save();
 
-     Session::flash('flash_message', 'Task successfully added!');
+        $task->tags()->sync($request->input('tag_list'));
 
-     return redirect()->back();
- }
+        Session::flash('flash_message', 'Task successfully added!');
+
+        return redirect()->back();
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -148,5 +151,14 @@ class TasksController extends Controller
         Session::flash('flash_message', 'Task successfully deleted!');
 
         return redirect()->route('tasks.index');
+    }
+
+    public function filterByTag($id)
+    {
+        $tasks = Task::whereHas('tags', function($query) use ($id) {
+            $query->where('id', '=', $id);
+        })->get();
+
+        return view('tasks.filtered')->withTasks($tasks);
     }
 }

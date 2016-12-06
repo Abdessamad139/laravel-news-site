@@ -2,34 +2,42 @@
 
 @section('content')
 
-<!-- the CSS styles for this page is inspired by Ravindu Jayalath's blog post at http://awithit.blogspot.com/2014/09/how-to-create-simple-comment-box-in.html -->
+<!-- the CSS styles for this page is inspired by Ravindu Jayalath's blog post -->
+<!-- at http://awithit.blogspot.com/2014/09/how-to-create-simple-comment-box-in.html -->
 
 <a href="{{$task->url}}"><h1 class="story-grid-titles">{{ $task->title }}</h1></a>
+
+<div style="margin-bottom:10px">
+    @foreach (($task->tags) as $tag)
+    <label class="label label-default">{{$tag->tagname}}</label>
+    @endforeach
+</div>
 <p class="date sub-text" id="dt">on {{$task->updated_at}}</p>                    
 <p class="lead">{{ $task->description }}</p>
 
 <hr>
+@include('partials.social', ['url' => ($task->url)])
+<hr>
 
 <div class="row">
     <div class="col-md-6">
-        <a href="{{ route('home') }}" class="btn btn-default">Back to all stories</a>
-        <hr>
-
-        <!-- list comments -->
+        <h4 style="color:gray; text-decoration:underline">Comments</h4>
+        @if (count($comments)!=0)
         <div class="actionBox">
             <ul class="commentList">             
-                @if (!empty($comments))
                 @foreach ($comments as $cm)
                 <div class="commentAnswerBox" style="background-color:#ade5f4"></div>
                 <li style="width: 500px">
                     <table>
                         <td id="userCommentThumbnail">
-                            <p>{{ (App\User::find($cm->userid))->name }}</p>
-                            <img src="/img/avatars/{{ App\User::find($cm->userid)->avatar }}" style="width:40px;height:40px;">
+                            <a href="{{route('users.show', $cm->userid)}}">
+                                <img src="/img/avatars/{{ (App\User::find($cm->userid))->avatar }}" style="width:40px;height:40px;margin-top:10px">
+                                <p>{{ App\User::find($cm->userid)->name }}</p>
+                            </a>
                         </td>
                         <td style="width: 100%; padding-left: 20px">
                             <div class="commentText">                    
-                                <p class="" >{{$cm->content}}</p> 
+                                <p>{{$cm->content}}</p> 
                                 <div style="margin-top:10px">                    
                                     <p class="date sub-text" id="dt">on {{$cm->updated_at}}</p>                    
                                 </div> 
@@ -37,7 +45,6 @@
                         </td>
                     </table>
                     @if (Auth::id()==$cm->userid)
-                    <hr>
                     <div>
                         <table>
                             <td>
@@ -58,16 +65,16 @@
                     
                 </li>              
                 @endforeach  
-                @endif
             </ul>      
         </div>
-
-        <!-- add comments -->
-        @if (Auth::guest())
-
         @else
-        <div>
+        <div style="padding-left: 20px">
+            <p>This post has no comments yet.</p>
+        </div>
+        @endif
 
+        @unless (Auth::guest())
+        <div>
             <div class="actionBox">
                 {{ Form::open(array('url'=>'/postcomment', 'method' => 'post' , 'class' => 'form-inline' )) }}        
                 <div class="form-group" style="width:100%; position:relative">                             
@@ -79,11 +86,10 @@
                 </div>
                 {{ Form::close() }}         
             </div>
-            <!-- check if input is valid -->
             @include('partials.alerts.errors')
 
         </div>
-        @endif
+        @endunless
 
     </div>
 </div>

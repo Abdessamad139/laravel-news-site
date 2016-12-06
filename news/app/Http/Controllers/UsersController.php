@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Session;
 use Auth;
 use DB;
+use App\User;
+use App\Task;
 
 class UsersController extends Controller
 {
@@ -14,69 +16,65 @@ class UsersController extends Controller
 		$this->middleware('auth');
 	}
 
-    public function showAvatarPage()
-    {
+	public function showIndex()
+	{
+		$keyword = \Request::get('search'); //<-- we use global request to get the param of URI
+		// $keyword = 'yihan';
+
+		$users = User::where('name','like','%'.$keyword.'%')
+		->orderBy('name')
+		->paginate(20);
+
+		return view('auth.userindex')->withUsers($users)->withKeyword($keyword);  
+	}
+
+
+	public function showAvatarPage()
+	{
       // allows user to choose avatar
-    	$user = Auth::user();
-    	$avatar = $user->avatar;
-    	return view('auth.setavatar')->withAvatar($avatar);
-    }
+		$user = Auth::user();
+		$avatar = $user->avatar;
+		return view('auth.setavatar')->withAvatar($avatar);
+	}
 
-    public function store(Request $request)
-    {
-    	$uid = Auth::id();
-    	$imageName = $uid . '.' . $request->file('image')->getClientOriginalExtension();
+	public function store(Request $request)
+	{
+		$this->validate($request, [
+			'image' => 'required'
+			]);
 
-    	// $path = 'img/avatars/'.$imageName;
-    	// $request->file('image')->move(
-    	// 	base_path() . '/public/img/avatars/', $imageName
-    	// 	);
-    	$request->file('image')->move(
-    		'img/avatars/', $imageName
-    		);
+		$uid = Auth::id();
+		$imageName = $uid . '.' . $request->file('image')->getClientOriginalExtension();
 
-    	DB::table('users')->where('id', $uid)->update(['avatar' => $imageName]);
+		$request->file('image')->move(
+			'img/avatars/', $imageName
+			);
 
-    	Session::flash('flash_message', 'New avater is set!');
+		DB::table('users')->where('id', $uid)->update(['avatar' => $imageName]);
 
-    	return redirect()->back();
+		Session::flash('flash_message', 'New avater is set!');
 
-    }
+		return redirect()->back();
 
-    public function show($id)
-    {
-        //
-    	$task = Task::findOrFail($id);
+	}
 
-    	return view('tasks.show')->withTask($task);    
-    }
+	public function storePreset(Request $request)
+	{
+		$imageName = $request->input('preset');
 
-    public function edit($id)
-    {
-        //
-    	$task = Task::findOrFail($id);
+		DB::table('users')->where('id', Auth::id())->update(['avatar' => $imageName]);
 
-    	return view('tasks.edit')->withTask($task);
+		Session::flash('flash_message', 'New avater is set!');
 
-    }
+		return redirect()->back();
 
-    public function update(Request $request, $id)
-    {
-        //
-    	$task = Task::findOrFail($id);
+	}
+	public function show($id)
+	{
 
-    	$this->validate($request, [
-    		'title' => 'required',
-    		'description' => 'required'
-    		]);
+		$tasks = Task::where('userid', '=', $id)->get();
 
-    	$input = $request->all();
+		return view('auth.userpage')->withId($id)->withTasks($tasks);
+	}
 
-    	$task->fill($input)->save();
-
-    	Session::flash('flash_message', 'Task successfully added!');
-
-    	return redirect()->back();
-    }
-
-  }
+}

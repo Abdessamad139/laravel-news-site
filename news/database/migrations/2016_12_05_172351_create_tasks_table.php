@@ -20,9 +20,14 @@ class CreateTasksTable extends Migration
             $table->string('title');
             $table->text('description');
             $table->string('url');
-            $table->integer('userid');
+            $table->integer('userid')->unsigned();
 
             $table->timestamps();
+
+        });
+
+        Schema::table('tasks', function($table) {
+            $table->foreign('userid')->references('id')->on('users');
         });
     }
 

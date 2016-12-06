@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Task;
 use App\Like;
+use DB;
 
 class PagesController extends Controller
 {
@@ -14,11 +15,7 @@ class PagesController extends Controller
 		$tasks = Task::all();
 		$likes = Like::all();
 
-		$data = array(
-			'tasks' => $tasks,
-			'likes' => $likes
-			);
-		return view('pages.home')->with($data);
+		return view('pages.home')->withTasks($tasks)->withLikes($likes);
 	}
 
 }

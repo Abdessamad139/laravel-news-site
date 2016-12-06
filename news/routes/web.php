@@ -26,6 +26,9 @@ Route::post('/postcomment','CommentsController@storeComment');
 Route::get('/showcomments/{id}', 'CommentsController@showPage')->name('getcomments');
 Route::post('/unlike/{userid}/{storyid}', 'LikesController@unlike')->name('unlike');
 Route::get('/showavatar/{userid}', 'UsersController@showAvatarPage')->name('showavatar');
+Route::get('/usersindex', 'UsersController@showIndex')->name('listusers');
+Route::post('/setpresetavatar', 'UsersController@storePreset')->name('setpresetavatar');
+Route::get('/filterbytag/{id}', 'TasksController@filterByTag')->name('filterbytag');
 
 Auth::routes();
 

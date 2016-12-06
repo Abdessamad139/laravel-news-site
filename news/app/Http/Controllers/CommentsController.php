@@ -29,6 +29,7 @@ class CommentsController extends Controller
 		->where('storyid', '=', $id)
 		->get();
 
+		// dd($comments);
 		// $comments = DB::select('select * from comments');  
 		return view('comments.commentPage')->withComments($comments)->withTask($task);
 

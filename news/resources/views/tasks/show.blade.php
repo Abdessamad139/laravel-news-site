@@ -2,7 +2,13 @@
 
 @section('content')
 
-<h1>{{ $task->title }} - logged in</h1>
+<h1>{{ $task->title }}</h1>
+@if(count($task->tagid)!=0)
+<div>
+	<label class="label label-primary">{{App\Tag::find($task->tagid)->tagname}}</label>
+</div>
+@endif
+<p class="date sub-text" id="dt">on {{$task->updated_at}}</p>
 <p class="lead">{{ $task->description }}</p>
 <hr>
 

@@ -11,10 +11,14 @@
   <title>NewsPoint</title>
 
   <!-- Styles -->
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
   <link href="/css/app.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="/css/commentsCss.css">
+  <link rel="stylesheet" type="text/css" href="/css/css-fontawesome/font-awesome.css">
+  <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
   <!-- Scripts -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
   <script>
   window.Laravel = <?php echo json_encode([
     'csrfToken' => csrf_token(),
@@ -43,6 +47,24 @@
           </div>
           <!-- Right Side Of Navbar -->
           <ul class="nav navbar-nav navbar-right">
+            <!-- search bar -->
+            <li>
+              {!! Form::open([
+              'method'=>'GET',
+              'route'=>'listusers',
+              'class'=>'navbar-form navbar-left',
+              'role'=>'search'
+              ]) !!}
+              <div class="input-group custom-search-form">
+                <input type="text" class="form-control" name="search" placeholder="Search users ...">
+                <span class="input-group-btn">
+                  <button class="btn btn-default-sm" type="submit">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </span>
+              </div>
+              {!! Form::close() !!}
+            </li>
             <!-- Authentication Links -->
             @if (Auth::guest())
             <li><a href="{{ url('/login') }}">Login</a></li>
@@ -69,12 +91,19 @@
                 <li>
                   <a href="{{ route('tasks.index') }}">Manage Posts</a>
                 </li>
+                <li>
+                  <a href="{{route('users.show', Auth::id())}}">Home Page</a>
+                </li>
               </ul>
             </li>
             @endif
           </ul>
 
-
+          <!-- Left Side Of Navbar -->
+          <ul class="nav navbar-nav navbar-left">
+            <li><a href="{{ url('/') }}">Home</a></li>
+            <li><a href="{{ route('tasks.create') }}">Post +</a></li>
+          </ul>
         </div>
       </div>
     </nav>
@@ -88,8 +117,10 @@
     </main>
 
   </div>
-
   <!-- Scripts -->
   <script src="/js/app.js"></script>
+  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+  @yield('footer')
 </body>
 </html>
