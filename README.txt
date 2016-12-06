@@ -3,7 +3,7 @@ PHP Laravel Project: News Sharing Website
 	1. New users can register (3 points)
 	2. Users can log in (3 points)
 	3. Users can log out (3 points)
-	4. Laravel Passport is used for user authentication (3 points)
+	4. Users have their own user pages with summary of their posts (3 points)
 	5. Registered users can choose their avatars (3 points)
 	6. Users can enter the website as guests (3 points)
 	7. Only registered users can post stories and edit/delete their own stories but not stories of other users (3 points)
