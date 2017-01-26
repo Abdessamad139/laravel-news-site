@@ -1,4 +1,4 @@
-# PHP Laravel Project: News Sharing Website
+PHP Laravel Project: News Sharing Website
  User Management:
 	1. New users can register
 	2. Users can log in
